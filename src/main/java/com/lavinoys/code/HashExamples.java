@@ -26,8 +26,8 @@ public class HashExamples {
     public String solution001(String[] participant, String[] completion) {
         LOGGER.info("start");
         String answer = null;
-        final Map<String, Long> partiMap = Arrays.stream(participant).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        final Map<String, Long> complMap = Arrays.stream(completion).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        final Map<String, Long> partiMap = Arrays.stream(participant).parallel().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        final Map<String, Long> complMap = Arrays.stream(completion).parallel().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
         final Optional<Map.Entry<String, Long>> noneMatchEntry = partiMap.entrySet().stream().filter(p -> complMap.entrySet().stream().noneMatch(c -> p.getKey().equals(c.getKey()) && p.getValue().equals(c.getValue()))).findFirst();
         if (noneMatchEntry.isPresent()) {
