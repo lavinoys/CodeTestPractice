@@ -25,7 +25,7 @@ public class HashExamples {
      */
     public String solution001(String[] participant, String[] completion) {
         LOGGER.info("start");
-        String answer = "";
+        String answer = null;
         final Optional<String> noneMatchArray = Arrays.stream(participant).filter(p -> Arrays.stream(completion).noneMatch(p::equals)).findFirst();
         if (noneMatchArray.isPresent()) {
             answer = noneMatchArray.get();
@@ -33,18 +33,9 @@ public class HashExamples {
             final Map<String, Long> partiMap = Arrays.stream(participant).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
             final Map<String, Long> complMap = Arrays.stream(completion).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-//            partiMap.entrySet().stream().filter(p -> complMap.entrySet().stream().noneMatch(c -> p.getKey().equals(c.getKey()) && p.getValue() != c.getValue())).findFirst();
-
-            boolean isBreak = false;
-            for (Map.Entry<String, Long> partiEntry : partiMap.entrySet()) {
-                for (Map.Entry<String, Long> complEntry : complMap.entrySet()) {
-                    if (partiEntry.getKey().equals(complEntry.getKey()) && !partiEntry.getValue().equals(complEntry.getValue())) {
-                        answer = partiEntry.getKey();
-                        isBreak = true;
-                        break;
-                    }
-                }
-                if (isBreak) break;
+            final Optional<Map.Entry<String, Long>> noneMatchEntry = partiMap.entrySet().stream().parallel().filter(p -> complMap.entrySet().stream().parallel().noneMatch(c -> p.getKey().equals(c.getKey()) && p.getValue().equals(c.getValue()))).findFirst();
+            if (noneMatchEntry.isPresent()) {
+                answer = noneMatchEntry.get().getKey();
             }
         }
 
