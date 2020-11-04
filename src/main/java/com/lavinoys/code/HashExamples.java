@@ -3,8 +3,11 @@ package com.lavinoys.code;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class HashExamples {
     static final Logger LOGGER = LoggerFactory.getLogger(HashExamples.class);
@@ -20,58 +23,32 @@ public class HashExamples {
      * @param completion 우승자
      * @return 탈락자
      */
-    public String solution(String[] participant, String[] completion) {
+    public String solution001(String[] participant, String[] completion) {
         LOGGER.info("start");
         String answer = "";
-        List<Vo> pList = new ArrayList<>();
-        boolean noneMatch;
-        for (String p : participant) {
-            noneMatch = true;
-            for (String c : completion) {
-                if (p.equals(c)) {
-                    noneMatch = false;
-                    break;
+        final Optional<String> noneMatchArray = Arrays.stream(participant).filter(p -> Arrays.stream(completion).noneMatch(p::equals)).findFirst();
+        if (noneMatchArray.isPresent()) {
+            answer = noneMatchArray.get();
+        } else {
+            final Map<String, Long> partiMap = Arrays.stream(participant).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+            final Map<String, Long> complMap = Arrays.stream(completion).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+//            partiMap.entrySet().stream().filter(p -> complMap.entrySet().stream().noneMatch(c -> p.getKey().equals(c.getKey()) && p.getValue() != c.getValue())).findFirst();
+
+            boolean isBreak = false;
+            for (Map.Entry<String, Long> partiEntry : partiMap.entrySet()) {
+                for (Map.Entry<String, Long> complEntry : complMap.entrySet()) {
+                    if (partiEntry.getKey().equals(complEntry.getKey()) && !partiEntry.getValue().equals(complEntry.getValue())) {
+                        answer = partiEntry.getKey();
+                        isBreak = true;
+                        break;
+                    }
                 }
-            }
-            if (noneMatch) {
-                answer = p;
-            }
-            Vo vo = new Vo(p, getCnt(p, participant));
-            pList.add(vo);
-        }
-        if ("".equals(answer)) {
-            for (Vo vo : pList) {
-                if (vo.cnt != getCnt(vo.getName(), completion)) {
-                    answer = vo.getName();
-                    break;
-                }
+                if (isBreak) break;
             }
         }
 
         LOGGER.info("finish");
         return answer;
-    }
-
-    public int getCnt (String name, String[] array) {
-        int cnt = 0;
-        for (String target : array) {
-            if (name.equals(target)) {
-                cnt++;
-            }
-        }
-        return cnt;
-    }
-}
-
-class Vo {
-    String name;
-    int cnt;
-    public Vo(String name, int cnt) {
-        this.name = name;
-        this.cnt = cnt;
-    }
-
-    public String getName() {
-        return name;
     }
 }

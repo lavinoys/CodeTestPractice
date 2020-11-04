@@ -31,7 +31,13 @@ class codeUnitTests {
         Logger logger = LoggerFactory.getLogger(HashExamples.class);
         HashExamples hashExamples = new HashExamples();
 
-        logger.info(hashExamples.solution(new String[]{"mislav", "stanko", "mislav", "ana"}, new String[]{"stanko", "ana", "mislav"}));
+        try {
+            logger.info(hashExamples.solution001(new String[]{"mislav", "stanko", "mislav", "ana"}, new String[]{"stanko", "ana", "mislav"}));
+//            logger.info(hashExamples.solution001(new String[]{"leo", "kiki", "eden"}, new String[]{"eden", "kiki"}));
+        } catch (Exception e) {
+            logger.info("Error : {}", e.getMessage());
+            logger.info("finish");
+        }
     }
 
 }
