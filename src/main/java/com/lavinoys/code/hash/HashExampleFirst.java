@@ -1,4 +1,4 @@
-package com.lavinoys.code;
+package com.lavinoys.code.hash;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class HashExamples {
-    static final Logger LOGGER = LoggerFactory.getLogger(HashExamples.class);
+public class HashExampleFirst {
+    static final Logger LOGGER = LoggerFactory.getLogger(HashExampleFirst.class);
 
     /**
      * [ 완주하지 못한 선수 ]
@@ -26,7 +26,7 @@ public class HashExamples {
      * @param completion 우승자
      * @return 탈락자
      */
-    public String solution001(String[] participant, String[] completion) {
+    public String solution(String[] participant, String[] completion) {
         LOGGER.info("start");
         String answer = null;
         final Map<String, Long> concatMap = Stream.concat(Arrays.stream(participant), Arrays.stream(completion)).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
