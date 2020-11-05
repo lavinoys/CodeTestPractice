@@ -75,6 +75,7 @@ class codeUnitTests {
 
         try {
             logger.info("count : {}", hash.solution(new String[][]{{"yellow_hat", "headgear"}, {"blue_sunglasses", "eyewear"}, {"green_turban", "headgear"}}));
+//            logger.info("count : {}", hash.solution(new String[][]{{"crow_mask", "face"}, {"blue_sunglasses", "face"}, {"smoky_makeup", "face"}}));
         } catch(Exception e) {
             logger.info("Error : {}", e.getMessage());
             logger.info("finish");

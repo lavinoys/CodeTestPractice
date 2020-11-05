@@ -39,21 +39,12 @@ public class HashExampleThird {
 
         final Map<String, Long> sortMap = categoryList.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        int sumCnt = 0;
-        int sortMapSize = sortMap.size();
-        if (1 == sortMapSize) {
-            answer = sortMap.entrySet().stream().findFirst().get().getValue().intValue();
-            return answer;
-        }
+        int sumCnt = 1;
 
-        int minusCnt = sortMapSize - 1;
         for (Map.Entry<String, Long> entry : sortMap.entrySet()) {
-            sumCnt += (entry.getValue().intValue() * minusCnt);
-            if (1 < minusCnt) {
-                minusCnt--;
-            }
+            sumCnt *= (entry.getValue().intValue()+1);
         }
-        answer = sumCnt + sortMapSize;
+        answer = sumCnt - 1;
 
         LOGGER.info("finish");
         return answer;
