@@ -107,7 +107,9 @@ class codeUnitTests {
         HashExampleFourth hash = new HashExampleFourth();
 
         try {
-            logger.info("values : {}", hash.solution(new String[]{"classic", "pop", "classic", "classic", "pop"}, new int[]{500, 600, 150, 800, 2500}));
+//            logger.info("values : {}", hash.solution(new String[]{"classic", "pop", "classic", "classic", "pop"}, new int[]{500, 600, 150, 800, 2500}));
+//            logger.info("values : {}", hash.solution(new String[]{"classic", "classic", "classic", "classic", "pop"}, new int[]{500, 150, 800, 800, 2500}));
+            logger.info("values : {}", hash.solution(new String[]{"classic","pop","classic","pop","classic","classic"}, new int[]{400,600,150,2500,500,500}));
         } catch(Exception e) {
             logger.info("Error : {}", e.getMessage());
             logger.info("finish");

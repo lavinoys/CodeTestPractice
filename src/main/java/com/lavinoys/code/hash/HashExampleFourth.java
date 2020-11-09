@@ -9,6 +9,8 @@ public class HashExampleFourth {
     static final Logger LOGGER = LoggerFactory.getLogger(HashExampleFourth.class);
 
     /**
+     * [ 베스트 앨범 ]
+     *
      * 스트리밍 사이트에서 장르 별로 가장 많이 재생된 노래를 두 개씩 모아 베스트 앨범을 출시하려 합니다. 노래는 고유 번호로 구분하며, 노래를 수록하는 기준은 다음과 같습니다.
      *
      * 속한 노래가 많이 재생된 장르를 먼저 수록합니다.
@@ -33,13 +35,6 @@ public class HashExampleFourth {
     public int[] solution(String[] genres, int[] plays) {
         LOGGER.info("start");
         int[] answer = {};
-
-        /*HashMap<String, Integer> collect = Arrays.stream(genres)
-                .collect(HashMap::new,
-                        (map, streamValue) -> map.put(streamValue, plays[map.size()]),
-                        (map, map2) -> {});
-        collect.forEach((k, v) -> LOGGER.info("{} : {}", k, v));*/
-
 
         Map<String, VO> mergeMap = new HashMap<>();
         for (int i = 0; i < genres.length; i++) {
@@ -69,26 +64,6 @@ public class HashExampleFourth {
                             .forEach(inner -> list.add(inner.getKey()));
                 });
         answer = list.stream().mapToInt(i->i).toArray();
-
-        /*mergeMap.entrySet()
-                .stream()
-                .sorted(Comparator.comparing(map -> map.getValue().getPlaysSum()))
-                .forEach(map -> {
-                    map.getValue()
-                            .getPlaysMap()
-                            .entrySet()
-                            .stream()
-                            .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())
-                            .limit(2)
-                            .forEach(inner -> {
-                                LOGGER.info("key : {}", inner.getKey());
-                            });
-                });*/
-        /*mergeMap.forEach((k, v) -> {
-            LOGGER.info("{} : {}", k, v.getPlaysSum());
-            v.getPlaysMap().entrySet().stream().sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed()).forEach(System.out::println);
-        });*/
-
 
         LOGGER.info("finish");
         return answer;
@@ -122,6 +97,9 @@ class VO implements Comparable<VO> {
 
     @Override
     public int compareTo(VO vo) {
-        return vo.getPlaysSum();
+        if (this.playsSum < vo.getPlaysSum()) {
+            return -1;
+        }
+        return 1;
     }
 }
