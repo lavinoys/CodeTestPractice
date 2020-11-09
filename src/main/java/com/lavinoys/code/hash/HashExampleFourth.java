@@ -55,7 +55,22 @@ public class HashExampleFourth {
             }
         }
 
+        List<Integer> list = new ArrayList<>();
         mergeMap.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, VO>comparingByValue().reversed())
+                .forEach(map -> {
+                    map.getValue()
+                            .getPlaysMap()
+                            .entrySet()
+                            .stream()
+                            .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())
+                            .limit(2)
+                            .forEach(inner -> list.add(inner.getKey()));
+                });
+        answer = list.stream().mapToInt(i->i).toArray();
+
+        /*mergeMap.entrySet()
                 .stream()
                 .sorted(Comparator.comparing(map -> map.getValue().getPlaysSum()))
                 .forEach(map -> {
@@ -68,9 +83,7 @@ public class HashExampleFourth {
                             .forEach(inner -> {
                                 LOGGER.info("key : {}", inner.getKey());
                             });
-                });
-
-
+                });*/
         /*mergeMap.forEach((k, v) -> {
             LOGGER.info("{} : {}", k, v.getPlaysSum());
             v.getPlaysMap().entrySet().stream().sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed()).forEach(System.out::println);
@@ -82,7 +95,7 @@ public class HashExampleFourth {
     }
 }
 
-class VO {
+class VO implements Comparable<VO> {
     int playsSum;
     Map<Integer, Integer> playsMap;
 
@@ -105,5 +118,10 @@ class VO {
 
     public void putPlays(int i, int play) {
         playsMap.put(i, play);
+    }
+
+    @Override
+    public int compareTo(VO vo) {
+        return vo.getPlaysSum();
     }
 }
