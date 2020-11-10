@@ -4,12 +4,14 @@ import com.lavinoys.code.hash.HashExampleFirst;
 import com.lavinoys.code.hash.HashExampleFourth;
 import com.lavinoys.code.hash.HashExampleSecond;
 import com.lavinoys.code.hash.HashExampleThird;
+import com.lavinoys.code.stack.StackExampleFirst;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class codeUnitTests {
@@ -111,6 +113,42 @@ class codeUnitTests {
 //            logger.info("values : {}", hash.solution(new String[]{"classic", "classic", "classic", "classic", "pop"}, new int[]{500, 150, 800, 800, 2500}));
             logger.info("values : {}", hash.solution(new String[]{"classic","pop","classic","pop","classic","classic"}, new int[]{400,600,150,2500,500,500}));
         } catch(Exception e) {
+            logger.info("Error : {}", e.getMessage());
+            logger.info("finish");
+        }
+    }
+
+    /**
+     * [ 주식 가격 ]
+     * 초 단위로 기록된 주식가격이 담긴 배열 prices가 매개변수로 주어질 때, 가격이 떨어지지 않은 기간은 몇 초인지를 return 하도록 solution 함수를 완성하세요.
+     *
+     * prices의 각 가격은 1 이상 10,000 이하인 자연수입니다.
+     * prices의 길이는 2 이상 100,000 이하입니다.
+     *
+     * 1초 시점의 ₩1은 끝까지 가격이 떨어지지 않았습니다.
+     * 2초 시점의 ₩2은 끝까지 가격이 떨어지지 않았습니다.
+     * 3초 시점의 ₩3은 1초뒤에 가격이 떨어집니다. 따라서 1초간 가격이 떨어지지 않은 것으로 봅니다.
+     * 4초 시점의 ₩2은 1초간 가격이 떨어지지 않았습니다.
+     * 5초 시점의 ₩3은 0초간 가격이 떨어지지 않았습니다.
+     *
+     * 몇초만에 내 주가가 음수이냐(떨어졌냐)를 판단하는 문제네요.
+     * prices[2] 가 3인데 다음 숫자가 2니까
+     * 1초만에 떨어진것.
+     *
+     * 즉 prices = [3, 4, 2, 6, 5] 라면
+     * 3은 4(1초) 2(2초)로 3보다 작은 2로 떨어진거니까 답은 2초가 됩니다.
+     */
+    @Test
+    @DisplayName("Stack Test 1")
+    void stackTest1() {
+        Logger logger = LoggerFactory.getLogger(StackExampleFirst.class);
+        StackExampleFirst stack = new StackExampleFirst();
+
+        try {
+            logger.info("values : {}", stack.solution(new int[]{1, 2, 3, 2, 3}));
+            logger.info("expected values : 4, 3, 1, 1, 0");
+            assertArrayEquals(stack.solution(new int[]{1, 2, 3, 2, 3}), new int[]{4, 3, 1, 1, 0});
+        } catch (Exception e) {
             logger.info("Error : {}", e.getMessage());
             logger.info("finish");
         }
