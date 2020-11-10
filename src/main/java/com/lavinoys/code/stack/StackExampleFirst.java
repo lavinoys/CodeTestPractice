@@ -29,8 +29,8 @@ public class StackExampleFirst {
      * 즉 prices = [3, 4, 2, 6, 5] 라면
      * 3은 4(1초) 2(2초)로 3보다 작은 2로 떨어진거니까 답은 2초가 됩니다.
      *
-     * @param prices
-     * @return
+     * @param prices 주식 가격 목록
+     * @return 응답 결과
      */
     public int[] solution(int[] prices) {
         LOGGER.info("start");
