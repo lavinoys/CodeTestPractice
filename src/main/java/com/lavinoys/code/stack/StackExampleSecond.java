@@ -19,49 +19,45 @@ public class StackExampleSecond {
      * 작업 속도는 100 이하의 자연수입니다.
      * 배포는 하루에 한 번만 할 수 있으며, 하루의 끝에 이루어진다고 가정합니다. 예를 들어 진도율이 95%인 작업의 개발 속도가 하루에 4%라면 배포는 2일 뒤에 이루어집니다.
      *
-     * @param progresses
-     * @param speeds
-     * @return
+     * @param progresses 개발량
+     * @param speeds 개발속도
+     * @return 결과
      */
     public int[] solution(int[] progresses, int[] speeds) {
         LOGGER.info("start");
-        int[] answer = {};
 
+        // 프로세스가 남은 배열 저장
         int[] calArray = new int[progresses.length];
-        int temp ;
         for (int i = 0; i < progresses.length; i++) {
-            temp = (100 - progresses[i]) / speeds[i];
-            calArray[i] = 1 == temp ? 0 : temp;
+            calArray[i] = (int)Math.ceil((100-progresses[i])/(double)speeds[i]);
         }
-        int progressSum;
-        int count;
+
+        // 배열에 있는 숫자를 비교한다.
+        // [0] : 10, [1] : 5, [2] : 2 경우  3이 된다.
+        int bigNum = -1;
+        int count = 0;
+        int index = 0;
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < calArray.length+2; i++) {
-            progressSum = 0;
-            count = 0;
-            if (i < calArray.length) {
-                for (int j = i+1; j < calArray.length; j++) {
-                    if (0 != progressSum) {
-                        progressSum += calArray[j];
-                        count++;
-                        if (calArray[i] <= progressSum) {
-                            list.add(count);
-                            i = j+1;
-                            break;
-                        }
-                    }
-                    if (calArray[i] > calArray[j]) {
-                        progressSum += calArray[j];
-                        count++;
-                    }
-                }
-            } else {
-                list.add(1);
+        for (int number : calArray) {
+            index++;
+            if (-1 == bigNum) {
+                bigNum = number;
+                count++;
+                continue;
+            }
+
+            if (bigNum < number) { // 기준 숫자가 다음 숫자보다 작으면
+                list.add(count);
+                bigNum = number;
+                count = 1;
+            } else { // 기준 숫자가 다음 숫자보다 크면
+                count++;
+            }
+            if (index == calArray.length) {
+                list.add(count);
             }
         }
-        answer = list.stream().mapToInt(Integer::intValue).toArray();
-        LOGGER.info("cal : {}", answer);
-
+        int[] answer = list.stream().mapToInt(Integer::intValue).toArray();
 
         LOGGER.info("finish");
         return answer;

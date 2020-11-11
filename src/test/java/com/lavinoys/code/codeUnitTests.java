@@ -189,8 +189,9 @@ class codeUnitTests {
         StackExampleSecond stack = new StackExampleSecond();
 
         try {
-            assertArrayEquals(stack.solution(new int[]{95, 90, 99, 99, 80, 99}, new int[]{1, 1, 1, 1, 1, 1}), new int[]{1, 3, 2});
-//            assertArrayEquals(stack.solution(new int[]{93, 30, 55}, new int[]{1, 30, 5}), new int[]{2, 1});
+//            assertArrayEquals(stack.solution(new int[]{95, 90, 99, 99, 80, 99}, new int[]{1, 1, 1, 1, 1, 1}), new int[]{1, 3, 2});
+            assertArrayEquals(stack.solution(new int[]{93, 30, 55}, new int[]{1, 30, 5}), new int[]{2, 1});
+//            assertArrayEquals(stack.solution(new int[]{95, 95, 95, 95}, new int[]{4, 3, 2, 1}), new int[]{2, 1, 1});
         } catch (Exception e) {
             logger.info("Error : {}", e.getMessage());
             logger.info("finish");
